@@ -1,0 +1,27 @@
+{
+  "name": "pstracker",
+  "version": "1.0.0",
+  "description": "ps tracker",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apir-tamal/pstracker.git"
+  },
+  "keywords": [
+    "ps",
+    "track"
+  ],
+  "author": "Tamal Mondal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apir-tamal/pstracker/issues"
+  },
+  "homepage": "https://github.com/apir-tamal/pstracker#readme",
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "express": "^4.15.2"
+  }
+}
