@@ -9,7 +9,16 @@ app.get('/', function(req, res) {
 
     res.send('Ok');
 
-})
+});
+
+app.post('/', function(req, res) {
+
+    console.log('Incoming Request!');
+    console.log(req.body);
+
+    res.send('Ok');
+
+});
 
 app.listen((process.env.PORT || 8080), function() {
     console.log(`Example app listening on port ${(process.env.PORT || 8080)}!`);
