@@ -13,10 +13,11 @@ function initialize(latLng) {
 
 
 google.maps.event.addDomListener(window, 'load', function(){
-	
+
 });
 
 function displayData(data){
+	console.log(data, '-----');
 	$ul = $('<ul>');
 	$.each(data, function(index, value) {
 		$ul.append($('<li>').html("<strong>" + index + "</strong><span>" + value + "</span>"));
@@ -42,7 +43,7 @@ function addDevice(uid, latLng){
 		position: latLng,
 		map: map,
 		animation: google.maps.Animation.DROP,
-		title: 'UID: ' + uid, 
+		title: 'UID: ' + uid,
 		uid: uid
 
 	});
@@ -58,7 +59,7 @@ function addDevice(uid, latLng){
 
 	devices[uid] = {
 		uid: uid,
-		marker: marker, 
+		marker: marker,
 		path: null
 	}
 
@@ -115,5 +116,3 @@ socket.on('positions', function (data) {
 	})
 
 });
-
-
