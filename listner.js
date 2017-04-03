@@ -7,8 +7,7 @@ app.use(cors());
 
 app.all('/', function(req, res) {
 
-    console.log('Incoming Request!');
-    console.log(req);
+    console.log('Incoming Request!', new Date().now());
 
     res.send('Ok');
 
