@@ -29,8 +29,6 @@
         // in place of a google.maps.LatLng object.
 
         var map;
-        var _lat = '<%=lat %>';
-        var _long = '<%=long %>';
 
         function initialize() {
             var mapOptions = {
@@ -68,6 +66,13 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
+
+
+        var host = window.document.location.host.replace(/:.*/, '');
+        var ws = new WebSocket('ws://' + host + ':8080');
+        ws.onmessage = function(event) {
+            updateStats(JSON.parse(event.data));
+        };
     </script>
 </head>
 
