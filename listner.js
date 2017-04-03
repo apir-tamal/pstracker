@@ -1,13 +1,14 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
 app.use(cors());
-
+app.use(bodyParser.text());
 
 app.all('/', function(req, res) {
 
-    console.log('Incoming Request!', new Date().now());
+    console.log('Incoming Request!', Date.now(), req.body);
 
     res.send('Ok');
 
