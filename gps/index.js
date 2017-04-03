@@ -1,8 +1,8 @@
 var gps = require("gps-tracking");
 var express = require('express');
 var app = express();
-var server = app.listen(3000);
-var io = require('socket.io')(server);	
+var server = app.listen(8080);
+var io = require('socket.io')(server);
 var MongoClient = require('mongodb').MongoClient,
 	assert = require('assert');
 
@@ -51,12 +51,12 @@ MongoClient.connect(mongourl, function(err, db) {
 
 			console.log('Hey! I want to start transmiting my position. Please accept me. My name is ' + device_id);
 
-			this.login_authorized(true); 
+			this.login_authorized(true);
 
 			console.log("Ok, " + device_id + ", you're accepted!");
 
 		});
-		
+
 
 		device.on("ping",function(data) {
 			data.uid = this.getUID();
@@ -78,14 +78,13 @@ MongoClient.connect(mongourl, function(err, db) {
 
 	   device.on("alarm",function(alarm_code, alarm_data, msg_data) {
 			console.log("Help! Something happend: " + alarm_code + " (" + alarm_data.msg + ")");
-		}); 
+		});
 
 		//Also, you can listen on the native connection object
 		connection.on('data', function(data) {
 			//echo raw data package
-			//console.log(data.toString()); 
+			//console.log(data.toString());
 		})
 
 	});
 });
-
