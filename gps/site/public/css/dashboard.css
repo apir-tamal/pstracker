@@ -114,3 +114,17 @@ body {
     margin: 0;
     padding: 0;
 }
+
+ul.displayData {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.displayData li {
+    marging: 2px;
+}
+
+ul.displayData li strong {
+    margin-right: 3px;
+}

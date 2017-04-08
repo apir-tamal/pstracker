@@ -19,16 +19,16 @@ google.maps.event.addDomListener(window, 'load', function() {
 function displayData(device) {
     console.log('displayData', device);
     var value = device.data;
-    $ul = $('<ul>');
+    $ul = $('<ul class="displayData">');
 
     $ul.append($('<li>').html("<strong>Vehicle</strong><span>" + value.vehicle_name + "</span>"));
     $ul.append($('<li>').html("<strong>Device</strong><span>" + value.vehicle_model + "</span>"));
     $ul.append($('<li>').html("<strong>IMEI</strong><span>" + value.device_imei + "</span>"));
-    $ul.append($('<li>').html("<strong>SIM</strong><span>" + value.device_imei + "</span>"));
+    $ul.append($('<li>').html("<strong>SIM</strong><span>" + value.device_mobile + "</span>"));
     $ul.append($('<li>').html("<strong>Mileage</strong><span>" + value.mileage + " km/ltr</span>"));
     $ul.append($('<li>').html("<strong>Status</strong><span>" + (value.gps.speed > 0 ? 'ON' : 'OFF') + "</span>"));
-    $ul.append($('<li>').html("<strong>Latitude</strong><span>" + value.gps.latitude + " km/ltr</span>"));
-    $ul.append($('<li>').html("<strong>Longitude</strong><span>" + value.gps.longitude + " km/ltr</span>"));
+    $ul.append($('<li>').html("<strong>Latitude</strong><span>" + value.gps.latitude + " </span>"));
+    $ul.append($('<li>').html("<strong>Longitude</strong><span>" + value.gps.longitude + " </span>"));
 
     $(".data").html($ul);
 }
