@@ -38,14 +38,9 @@ MongoClient.connect(mongourl, function(err, db) {
     var collection = db.collection('devices');
 
     io.on('connection', function(socket) {
-        collection.find({}).sort({
-            inserted: -1
-        }).limit(300).toArray(function(err, docs) {
+        collection.find({}).toArray(function(err, docs) {
             assert.equal(err, null);
-            socket.emit('positions', {
-                positions: docs
-            });
-
+            socket.emit('positions', docs);
         });
     });
 
@@ -107,7 +102,7 @@ MongoClient.connect(mongourl, function(err, db) {
                     gps: gpsData
                 }
             }, function(err, result) {
-                console.log(err, result);
+                // console.log(err, result);
             });
 
             //Look what informations the device sends to you (maybe velocity, gas level, etc)

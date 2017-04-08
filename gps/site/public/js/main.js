@@ -17,7 +17,7 @@ google.maps.event.addDomListener(window, 'load', function() {
 });
 
 function displayData(data) {
-    console.log(data);
+    console.log('displayData', data);
     $ul = $('<ul>');
     $.each(data, function(index, value) {
         $ul.append($('<li>').html("<strong>" + index + "</strong><span>" + value + "</span>"));
@@ -36,7 +36,8 @@ function checkIfMapExists(latLng) {
     }
 }
 
-function addDevice(uid, latLng) {
+function addDevice(data, latLng) {
+    var uid = data.gps.uid;
     checkIfMapExists(latLng);
 
     var marker = new google.maps.Marker({
@@ -51,14 +52,12 @@ function addDevice(uid, latLng) {
     marker.setMap(map);
 
     google.maps.event.addListener(marker, 'click', function() {
-        var deviceData = getDevice(this.uid).lastData;
-        console.log(deviceData);
-
+        var deviceData = getDevice(this.uid);
         displayData(deviceData);
     });
 
     devices[uid] = {
-        uid: uid,
+        data: data,
         marker: marker,
         path: null
     }
@@ -67,10 +66,10 @@ function addDevice(uid, latLng) {
 }
 
 function checkIfDeviceExists(data) {
-    var uid = data.uid;
+    var uid = data.gps.uid;
 
     if (typeof devices[uid] == "undefined") {
-        return addDevice(uid, new google.maps.LatLng(data.latitude, data.longitude));
+        return addDevice(data, new google.maps.LatLng(data.gps.latitude, data.gps.longitude));
     }
 
     return devices[uid];
@@ -78,44 +77,28 @@ function checkIfDeviceExists(data) {
 
 var socket = io.connect(window.location.host);
 socket.on('ping', function(data) {
-    if (!!data) {
-        console.log(data);
-        var device = checkIfDeviceExists(data);
-        device.lastData = data;
+    console.log('ping', data);
+    var device = getDevice(data.uid);
+    if (!!device) {
 
         var position = new google.maps.LatLng(data.latitude, data.longitude);
-
-        device.path.getPath().push(position);
         device.marker.setPosition(position);
 
-        socket.emit('my other event', {
-            my: 'data'
-        });
+        socket.emit('PONG');
     }
 });
 
 socket.on('positions', function(data) {
     var device;
-    console.log(data.positions);
-    data.positions = data.positions.reverse();
-    $.each(data.positions, function(index, value) {
-        device = checkIfDeviceExists(value);
-        var position = new google.maps.LatLng(value.latitude, value.longitude);
 
-        if (!device.path) {
-            device.path = new google.maps.Polyline({
-                path: [],
-                geodesic: true,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
-                strokeWeight: 2
-            });
-            device.path.setMap(map);
+    console.log('positions', data);
+
+    $.each(data, function(index, value) {
+        if (!!value.gps) {
+            device = checkIfDeviceExists(value);
+            var position = new google.maps.LatLng(value.gps.latitude, value.gps.longitude);
+            device.marker.setPosition(position);
         }
-
-        device.marker.position = position;
-
-        device.path.getPath().push(position);
-    })
+    });
 
 });
