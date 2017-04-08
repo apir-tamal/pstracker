@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Dashboard </title>
+
+    <!-- Bootstrap core CSS -->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzaqtlXdElFnt8qiufeS3PrWA0oGqiT6Q">
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="navbar-brand" href="#">Tracker</em></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Device <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/active-device">Active Device</a></li>
+                            <li><a href="/add-device">Add Device</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                &nbsp;
+            </div>
+            <div class="col-sm-6">
+                <div class="row ">
+                    <h2 class="page-header"> Add Device</h2>
+                    <form action="/add-device" method="post">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Vehicle Name</label>
+                            <input type="text" name="vehicle_name" class="form-control" placeholder="Vehicle Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Vehicle model</label>
+                            <select class="form-control" name="vehicle_model">
+                              <option selected="selected">Please Select</option>
+                              <option>Ashok Leyland 1212</option>
+                              <option>Ashok Leyland 3110</option>
+                              <option>Ashok Leyland 3110 Round Tank</option>
+                              <option>Ashok Leyland 3118 IL.Super</option>
+                              <option>Ashok Leyland 3718c</option>
+                              <option>Ashok Leyland 4218</option>
+                              <option>Ashok Leyland U-2518T Square</option>
+                              <option>Bharat Benz</option>
+                              <option>BikeTest</option>
+                              <option>Cruise</option>
+                              <option>Dumper</option>
+                              <option>Eicher</option>
+                              <option>Grader</option>
+                              <option>Hywa Tata 2518 Tata</option>
+                              <option>i10</option>
+                              <option>Innova</option>
+                              <option>JCB</option>
+                              <option>Mahindra Bolero</option>
+                              <option>Mahindra ORCE210</option>
+                              <option>TATA 1109</option>
+                              <option>Tata 1618</option>
+                              <option>Tata 2515 CEX</option>
+                              <option>TATA 3116C</option>
+                              <option>Tata 3118 C</option>
+                              <option>Tata 3118 C Square</option>
+                              <option>TATA 3518TC Square</option>
+                              <option>Tata 4018C</option>
+                              <option>TATA 407</option>
+                              <option>TATA 4923C</option>
+                              <option>Tata 4930</option>
+                              <option>TATA 709</option>
+                              <option>TATA ACE SUPER</option>
+                              <option>Tata Bus</option>
+                              <option>TATA HYWA 2518C</option>
+                              <option>Tata LPT 1613</option>
+                              <option>Tata Nano</option>
+                              <option>Tata Rx Pickup</option>
+                              <option>Tata Tanker</option>
+                              <option>test</option>
+                              <option>Test Pickup</option>
+                              <option>Tractor</option>
+                              <option>Others</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Device Model</label>
+                            <select class="form-control" name="device_model">
+                              <option selected="selected">Please Select</option>
+                              <option>TK103</option>
+                              <!-- <option>GT06N</option> -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Vehicle Icon</label>
+                            <input type="text" class="form-control" placeholder="Coming Soon">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Device Mobile No</label>
+                            <input type="text" class="form-control" name="device_mobile" placeholder="Device Mobile No">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Device IMEI No</label>
+                            <input type="text" class="form-control" name="device_imei" placeholder="Device IMEI No">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Mileage(KM/Ltr)</label>
+                            <input type="text" class="form-control" name="mileage" placeholder="Mileage">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Driver Name</label>
+                            <input type="text" class="form-control" name="driver_name" placeholder="Driver Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Driver Mobile No</label>
+                            <input type="text" class="form-control" name="driver_mobile" placeholder="Driver Mobile No">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Device Owner</label>
+                            <input type="text" class="form-control" placeholder="Coming Soon">
+                        </div>
+
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
