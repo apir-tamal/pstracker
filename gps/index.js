@@ -97,6 +97,8 @@ MongoClient.connect(mongourl, function(err, db) {
             data.uid = this.getUID();
             io.emit('ping', data);
 
+						console.log(data);
+
             //this = device
             console.log("I'm here: " + data.latitude + ", " + data.longitude + " (" + this.getUID() + ")");
 
