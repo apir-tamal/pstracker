@@ -35,12 +35,10 @@ MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
     console.log("Connected correctly to mongo DB server");
 
-    var collections = {
-        'pings': db.collection('pings')
-    };
+    var collection = db.collection('devices');
 
     io.on('connection', function(socket) {
-        collections.pings.find({}).sort({
+        collection.find({}).sort({
             inserted: -1
         }).limit(300).toArray(function(err, docs) {
             assert.equal(err, null);
@@ -54,16 +52,16 @@ MongoClient.connect(mongourl, function(err, db) {
     // Post
     app.post('/add-device', function(req, res) {
         if (!!req.body) {
-            var device = db.collection('devices');
-            device.insert(req.body);
+            collection.insert(req.body);
             res.redirect('/add-device');
         }
     });
 
     app.get('/active-device', function(req, res) {
-        var device = db.collection('devices');
-        device.find({}).toArray(function(err, result) {
-            if (err) return console.log(err)
+        collection.find({}).toArray(function(err, result) {
+            if (err) {
+                return console.log(err);
+            }
             // renders index.ejs
             res.render(__dirname + '/site/active-device.ejs', {
                 device: result
@@ -100,10 +98,17 @@ MongoClient.connect(mongourl, function(err, db) {
             //this = device
             console.log("I'm here: " + data.latitude + ", " + data.longitude + " (" + this.getUID() + ")");
 
-            var data_to_insert = data;
-            data_to_insert.uid = this.getUID();
+            var gpsData = data;
 
-            collections.pings.insert(data_to_insert);
+            collection.updateOne({
+                device_imei: gpsData.uid
+            }, {
+                $set: {
+                    gps: gpsData
+                }
+            }, function(err, result) {
+                console.log(err, result);
+            });
 
             //Look what informations the device sends to you (maybe velocity, gas level, etc)
             //console.log(data);
@@ -118,7 +123,7 @@ MongoClient.connect(mongourl, function(err, db) {
         //Also, you can listen on the native connection object
         connection.on('data', function(data) {
             //echo raw data package
-            console.log(data, data.toString());
+            //console.log(data.toString());
         })
 
     });
