@@ -78,13 +78,15 @@ function checkIfDeviceExists(data) {
 var socket = io.connect(window.location.host);
 socket.on('ping', function(data) {
     console.log('ping', data);
-    var device = getDevice(data.uid);
-    if (!!device) {
+    if (!!data) {
+        var device = getDevice(data.uid);
+        if (!!device) {
 
-        var position = new google.maps.LatLng(data.latitude, data.longitude);
-        device.marker.setPosition(position);
+            var position = new google.maps.LatLng(data.latitude, data.longitude);
+            device.marker.setPosition(position);
 
-        socket.emit('PONG');
+            socket.emit('PONG');
+        }
     }
 });
 
