@@ -7,6 +7,7 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
+var moment = require('moment-timezone');
 
 var mongourl = 'mongodb://localhost:27017/gps_server';
 
@@ -30,6 +31,11 @@ app.get('/', function(req, res) {
 app.get('/add-device', function(req, res) {
     res.sendFile(__dirname + '/site/add-device.html');
 });
+
+function toIST(date) {
+    var kdate = moment.tz(date, "Asia/Kolkata");
+    return kdate.format('DD-MM-YYYY hh:mm');
+}
 
 MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
@@ -87,10 +93,12 @@ MongoClient.connect(mongourl, function(err, db) {
 
 
         device.on("ping", function(data) {
+            // parse data
+            data.updated_ist = toIST(data.inserted);
             data.uid = this.getUID();
             io.emit('ping', data);
 
-            //this = device
+            // this = device
             console.log("I'm here: " + data.latitude + ", " + data.longitude + " (" + this.getUID() + ")");
 
             var gpsData = data;

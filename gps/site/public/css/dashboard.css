@@ -123,6 +123,8 @@ ul.displayData {
 
 ul.displayData li {
     display: inline-block;
+    width: 100%;
+    line-height: 2em;
 }
 
 ul.displayData li strong {

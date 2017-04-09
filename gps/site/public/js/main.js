@@ -1,5 +1,5 @@
 var map;
-var devices = {}
+var devices = {};
 
 
 function initialize(latLng) {
