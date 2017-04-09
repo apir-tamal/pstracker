@@ -34,7 +34,7 @@ app.get('/add-device', function(req, res) {
 
 function toIST(date) {
     var kdate = moment.tz(date, "Asia/Kolkata");
-    return kdate.format('DD-MM-YYYY hh:mm');
+    return kdate.format('DD-MM-YYYY hh:mm a');
 }
 
 MongoClient.connect(mongourl, function(err, db) {
