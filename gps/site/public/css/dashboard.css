@@ -122,9 +122,9 @@ ul.displayData {
 }
 
 ul.displayData li {
-    marging: 2px;
+    display: inline-block;
 }
 
 ul.displayData li strong {
-    margin-right: 3px;
+    display: block;
 }
