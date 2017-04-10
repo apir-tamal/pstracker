@@ -17,21 +17,44 @@ google.maps.event.addDomListener(window, 'load', function() {
 });
 
 function displayData(device) {
+
     console.log('displayData', device);
+
     var value = device.data;
-    $ul = $('<ul class="displayData">');
 
-    $ul.append($('<li>').html("<strong>Vehicle</strong><span>" + value.vehicle_name + " </span>"));
-    $ul.append($('<li>').html("<strong>Device</strong><span>" + value.vehicle_model + " </span>"));
-    $ul.append($('<li>').html("<strong>IMEI</strong><span>" + value.device_imei + " </span>"));
-    $ul.append($('<li>').html("<strong>SIM</strong><span>" + value.device_mobile + " </span>"));
-    $ul.append($('<li>').html("<strong>Mileage</strong><span>" + value.mileage + " km/ltr </span>"));
-    $ul.append($('<li>').html("<strong>Status</strong><span>" + (value.gps.speed > 0 ? 'ON' : 'OFF') + "</span>"));
-    $ul.append($('<li>').html("<strong>Latitude</strong><span>" + value.gps.latitude + " </span>"));
-    $ul.append($('<li>').html("<strong>Longitude</strong><span>" + value.gps.longitude + " </span>"));
-    $ul.append($('<li>').html("<strong>Last Updated</strong><span>" + value.gps.updated_ist + " </span>"));
+    var geocoder = new google.maps.Geocoder;
+    geocoder.geocode({
+        'location': {
+            lat: parseFloat(value.gps.latitude),
+            lng: parseFloat(value.gps.longitude)
+        }
+    }, function(results, status) {
+        if (status === 'OK') {
+            if (results[1]) {
 
-    $(".data").html($ul);
+                console.log(results[1].formatted_address);
+
+                $ul = $('<ul class="displayData">');
+                $ul.append($('<li>').html("<strong>Vehicle</strong><span>" + value.vehicle_name + " </span>"));
+                $ul.append($('<li>').html("<strong>Device</strong><span>" + value.vehicle_model + " </span>"));
+                $ul.append($('<li>').html("<strong>IMEI</strong><span>" + value.device_imei + " </span>"));
+                $ul.append($('<li>').html("<strong>SIM</strong><span>" + value.device_mobile + " </span>"));
+                $ul.append($('<li>').html("<strong>Mileage</strong><span>" + value.mileage + " km/ltr </span>"));
+                $ul.append($('<li>').html("<strong>Status</strong><span>" + (value.gps.speed > 0 ? 'ON' : 'OFF') + "</span>"));
+                $ul.append($('<li>').html("<strong>Latitude</strong><span>" + value.gps.latitude + " </span>"));
+                $ul.append($('<li>').html("<strong>Longitude</strong><span>" + value.gps.longitude + " </span>"));
+                $ul.append($('<li>').html("<strong>Address</strong><span>" + results[1].formatted_address + " </span>"));
+                $ul.append($('<li>').html("<strong>Last Updated</strong><span>" + value.gps.updated_ist + " </span>"));
+                $(".data").html($ul);
+
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
+    });
+
 }
 
 function getDevice(uid) {
@@ -52,7 +75,7 @@ function addDevice(data, latLng) {
         position: latLng,
         map: map,
         animation: google.maps.Animation.DROP,
-        title: 'UID: ' + uid,
+        title: data.vehicle_name + '\nUID: ' + uid,
         uid: uid
 
     });
