@@ -10,10 +10,10 @@ function initialize(latLng) {
     };
     map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
+    bounds = new google.maps.LatLngBounds();
 }
 
 function autocenter(loc) {
-    bounds = new google.maps.LatLngBounds();
     bounds.extend(loc);
     map.fitBounds(bounds);
     map.panToBounds(bounds);
