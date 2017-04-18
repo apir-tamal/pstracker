@@ -1,5 +1,6 @@
 var map;
 var devices = {};
+var bounds;
 
 
 function initialize(latLng) {
@@ -12,7 +13,7 @@ function initialize(latLng) {
 }
 
 function autocenter(loc) {
-    var bounds = new google.maps.LatLngBounds();
+    bounds = new google.maps.LatLngBounds();
     bounds.extend(loc);
     map.fitBounds(bounds);
     map.panToBounds(bounds);
