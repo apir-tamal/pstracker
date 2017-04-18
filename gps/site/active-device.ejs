@@ -103,7 +103,7 @@
                                     <%= device[i].mileage %>
                                 </td>
                                 <td>
-                                    <%= (device[i].gps.updated_ist || 'NOT REC YET') %>
+                                    <%= (device[i].gps !== undefined && device[i].gps.updated_ist !== undefined ? device[i].gps.updated_ist:'NOT REC YET') %>
                                 </td>
                             </tr>
                             <% } %>

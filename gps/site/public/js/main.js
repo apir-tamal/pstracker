@@ -11,6 +11,13 @@ function initialize(latLng) {
         mapOptions);
 }
 
+function autocenter(loc) {
+    var bounds = new google.maps.LatLngBounds();
+    bounds.extend(loc);
+    map.fitBounds(bounds);
+    map.panToBounds(bounds);
+}
+
 
 google.maps.event.addDomListener(window, 'load', function() {
 
@@ -116,6 +123,7 @@ socket.on('ping', function(data) {
 
             var position = new google.maps.LatLng(data.latitude, data.longitude);
             device.marker.setPosition(position);
+            autocenter(position);
 
             socket.emit('PONG');
         }
@@ -132,6 +140,7 @@ socket.on('positions', function(data) {
             device = checkIfDeviceExists(value);
             var position = new google.maps.LatLng(value.gps.latitude, value.gps.longitude);
             device.marker.setPosition(position);
+            autocenter(position);
         }
     });
 
