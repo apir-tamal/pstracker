@@ -103,6 +103,8 @@ MongoClient.connect(mongourl, function(err, db) {
 
             var gpsData = data;
 
+            console.log(gpsData);
+
             collection.updateOne({
                 device_imei: gpsData.uid
             }, {
