@@ -110,7 +110,7 @@ MongoClient.connect(mongourl, function(err, db) {
                     gps: gpsData
                 }
             }, function(err, result) {
-                 console.log(err, result);
+                // console.log(err, result);
             });
 
             //Look what informations the device sends to you (maybe velocity, gas level, etc)
