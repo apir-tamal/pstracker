@@ -53,8 +53,25 @@ MongoClient.connect(mongourl, function(err, db) {
     // Post
     app.post('/add-device', function(req, res) {
         if (!!req.body) {
-            collection.insert(req.body);
-            res.redirect('/add-device');
+
+            collection.insert(req.body, function(err, result) {
+                if (err) {
+                    if (err.code === 11000) {
+                        res.status(200).json({
+                            message: 'Duplicate device imei!'
+                        });
+                    } else {
+                        res.status(200).json({
+                            message: 'Server Error!'
+                        });
+                    }
+
+                } else {
+                    res.status(200).json({
+                        message: `!!!Device successfully added!!! \n Send following SMS to +91${req.body.device_mobile}: \n "begin123456" \n "apn123456airtelgprs.com" \n "ip139.59.40.153port10066" \n "number${req.body.device_mobile}" \n "web123456" \n "tracker123456"`
+                    });
+                }
+            });
         }
     });
 

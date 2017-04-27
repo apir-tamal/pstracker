@@ -73,7 +73,7 @@
             <div class="col-sm-6">
                 <div class="row ">
                     <h2 class="page-header"> Add Device</h2>
-                    <form action="/add-device" method="post">
+                    <form action="/add-device" method="post" id="add-device">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Vehicle Name</label>
                             <input type="text" name="vehicle_name" class="form-control" placeholder="Vehicle Name">
@@ -81,7 +81,7 @@
                         <div class="form-group">
                             <label for="exampleInputPassword1">Vehicle model</label>
                             <select class="form-control" name="vehicle_model">
-                              <option selected="selected">Please Select</option>
+                              <option selected="selected" value="">Please Select</option>
                               <option>Ashok Leyland 1212</option>
                               <option>Ashok Leyland 3110</option>
                               <option>Ashok Leyland 3110 Round Tank</option>
@@ -129,24 +129,24 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Device Model</label>
                             <select class="form-control" name="device_model">
-                              <option selected="selected">Please Select</option>
+                              <option selected="selected" value="">Please Select</option>
                               <option>TK103</option>
                               <!-- <option>GT06N</option> -->
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Vehicle Icon</label>
-                            <input type="text" class="form-control" placeholder="Coming Soon">
+                            <input type="text" class="form-control" placeholder="Coming Soon" disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Device Mobile No</label>
-                            <input type="text" class="form-control" name="device_mobile" placeholder="Device Mobile No">
+                            <input type="text" class="form-control" id="device_mobile" name="device_mobile" placeholder="Device Mobile No">
                         </div>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Device IMEI No</label>
-                            <input type="text" class="form-control" name="device_imei" placeholder="Device IMEI No">
+                            <input type="text" class="form-control" id="device_imei" name="device_imei" placeholder="Device IMEI No" readonly>
                         </div>
 
                         <div class="form-group">
@@ -166,11 +166,13 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Device Owner</label>
-                            <input type="text" class="form-control" placeholder="Coming Soon">
+                            <input type="text" class="form-control" placeholder="Coming Soon" disabled>
                         </div>
 
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
+                    <br/>
+                    <br/>
                 </div>
             </div>
             <div class="col-sm-3">
@@ -185,7 +187,67 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Ajax form -->
+    <script src="http://malsup.github.com/jquery.form.js"></script>
 
+    <script>
+        // prepare the form when the DOM is ready
+        $(document).ready(function() {
+
+            // Miror
+
+            $('#device_mobile').bind('keypress keyup blur', function() {
+                $('#device_imei').val($(this).val());
+            });
+
+            // Form submit
+            function validate(formData, jqForm, options) {
+                var form = jqForm[0];
+                console.log(form);
+
+                if (!form.vehicle_name.value) {
+                    alert('Please enter a value for Vehicle Name');
+                    return false;
+                }
+                if (!form.vehicle_model.value) {
+                    alert('Please select a value for Vehicle Model');
+                    return false;
+                }
+                if (!form.device_model.value) {
+                    alert('Please select a value for Device Model');
+                    return false;
+                }
+                if (!form.device_mobile.value.match('[0-9]{10}')) {
+                    alert('Please enter GPS Device 10 digit Mobile No');
+                    return false;
+                }
+                if (!form.mileage.value) {
+                    alert('Please enter a value for Vehicle Mileage');
+                    return false;
+                }
+                if (!form.driver_name.value) {
+                    alert('Please enter Driver Name');
+                    return false;
+                }
+                if (!form.driver_mobile.value.match('[0-9]{10}')) {
+                    alert('Please enter Driver Mobile no');
+                    return false;
+                }
+            }
+
+            function processJson(data) {
+                alert(data.message);
+                window.location.href = '/active-device';
+            }
+
+            // bind form using ajaxForm
+            $('#add-device').ajaxForm({
+                beforeSubmit: validate,
+                dataType: 'json',
+                success: processJson
+            });
+        });
+    </script>
 </body>
 
 </html>
