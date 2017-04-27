@@ -112,16 +112,18 @@ MongoClient.connect(mongourl, function(err, db) {
         device.on("ping", function(data) {
             // parse data
             data.updated_ist = toIST(data.inserted);
-            data.uid = this.getUID();
+            data.uid = this.getUID().replace(/[^0-9 ]/g, "");
+            data.uid = data.uid.replace(/^0+/, '');
+
             io.emit('ping', data);
 
             // this = device
-            console.log("I'm here: " + data.latitude + ", " + data.longitude + " (" + this.getUID() + ")");
+            console.log("I'm here: " + data.latitude + ", " + data.longitude + " > " + data.uid + " (" + this.getUID() + ")");
 
             var gpsData = data;
 
             collection.updateOne({
-                device_imei: gpsData.uid.replace(/^0+/, '')
+                device_imei: gpsData.uid
             }, {
                 $set: {
                     gps: gpsData
