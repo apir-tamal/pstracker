@@ -130,3 +130,18 @@ ul.displayData li {
 ul.displayData li strong {
     display: block;
 }
+
+
+
+.navbar-custom1 .nav > li > a:focus,
+.navbar-custom1 .nav > li > a:hover,
+.navbar-custom1 .nav > li.active > a {
+  background-color: #11bb11;
+}
+
+
+/*-- change navbar dropdown color --*/
+.navbar-custom1 .navbar-nav .open .dropdown-menu>li>a,.navbar-custom1 .navbar-nav .open .dropdown-menu {
+  background-color: #11bb11;
+  color:#ffffff;
+}
