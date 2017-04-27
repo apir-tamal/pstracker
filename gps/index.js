@@ -121,7 +121,7 @@ MongoClient.connect(mongourl, function(err, db) {
             var gpsData = data;
 
             collection.updateOne({
-                device_imei: gpsData.uid
+                device_imei: gpsData.uid.replace(/^0+/, '')
             }, {
                 $set: {
                     gps: gpsData
