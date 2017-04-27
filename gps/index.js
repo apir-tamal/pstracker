@@ -52,7 +52,7 @@ MongoClient.connect(mongourl, function(err, db) {
 
     // Post
     app.post('/add-device', function(req, res) {
-        if (!!req.body) {
+        if (!!req.body && req.body.device_mobile.match('[0-9]{10}')) {
 
             collection.insert(req.body, function(err, result) {
                 if (err) {
