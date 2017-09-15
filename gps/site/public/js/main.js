@@ -6,7 +6,7 @@ var bounds;
 function initialize(latLng) {
     var mapOptions = {
         center: latLng,
-        zoom: 11
+        zoom: 8
     };
     map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
