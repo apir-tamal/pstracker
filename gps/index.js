@@ -68,7 +68,7 @@ MongoClient.connect(mongourl, function(err, db) {
 
                 } else {
                     res.status(200).json({
-                        message: `!!!Device successfully added!!! \n Send following SMS to +91${req.body.device_mobile}: \n "begin123456" \n "apn123456airtelgprs.com" \n "ip139.59.40.153port10066" \n "number${req.body.device_mobile}" \n "web123456" \n "tracker123456"`
+                        message: `!!!Device successfully added!!! \n Send following SMS to +91${req.body.device_mobile}: \n "begin123456" \n "apn123456airtelgprs.com" \n "ip139.59.94.153port10066" \n "number${req.body.device_mobile}" \n "web123456" \n "tracker123456"`
                     });
                 }
             });

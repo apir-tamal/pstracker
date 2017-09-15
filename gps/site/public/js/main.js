@@ -6,7 +6,7 @@ var bounds;
 function initialize(latLng) {
     var mapOptions = {
         center: latLng,
-        zoom: 8
+        zoom: 11
     };
     map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
@@ -17,6 +17,7 @@ function autocenter(loc) {
     bounds.extend(loc);
     map.fitBounds(bounds);
     map.panToBounds(bounds);
+    map.setZoom(11);
 }
 
 
