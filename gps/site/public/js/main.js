@@ -19,7 +19,7 @@ function autocenter(loc) {
     map.fitBounds(bounds);
     map.panToBounds(bounds);
   } else {
-    map.setZoom(11);
+    map.setZoom(15);
   }
 }
 
